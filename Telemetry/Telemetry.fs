@@ -1,6 +1,6 @@
 ﻿namespace Telemetry
 
-module private types =
+module types =
     type Event = | Start | End of int64 | Exception of (System.Exception)
     type Message = {Step:System.Enum;Event:Event}
     type MessageSerializer = Message->string
