@@ -53,7 +53,7 @@ type Tests() =
         System.Threading.Thread.Sleep(1000) //the actual logging is async in agents... so we need to wait to let it finish.  
                                             //TODO: come up with a better way to assure completion
         Assert.Equal (5,result)
-        Assert.Equal ("Proper",c.[0])
+        Assert.Equal ("{\"step\":\"Step1\",\"event\":{\"Case\":\"Start\"}}",c.[0])
         ()
 
     [<Fact>]

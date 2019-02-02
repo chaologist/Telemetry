@@ -1,34 +1,13 @@
 ﻿namespace Telemetry
-open System.Runtime.Serialization
-open Newtonsoft.Json.Converters
-open Newtonsoft.Json
-module types =
-    [<DataContract>]
-    type Event = | Start | End of int64 | Exception of (System.Exception)
-    [<DataContract>]
-    type Message = {
-
-        [<JsonConverter(typeof<StringEnumConverter>)>]
-        [<field: DataMember(Name="step") >]
-         Step:System.Enum;
-        [<field: DataMember(Name="event") >]
-
-        Event:Event
-     }
-    type MessageSerializer = Message->string
-
 module Sinks =
-    open types
+    open Types
     open SinkAgent
     type TelemetrySink = string->unit
 
     let Wrap (sinks: seq<TelemetrySink>) (step:System.Enum) (f:'a->'b)=
         let sinkAgents = sinks |> Seq.map MakeAgent |> Array.ofSeq 
-        let serialize (msg:Message)=
-            Newtonsoft.Json.JsonConvert.SerializeObject msg 
         let sinkMsg msg=
-            let serializedMessage = serialize msg
-            sinkAgents |> Array.iter (fun snk-> snk.Post serializedMessage)
+            sinkAgents |> Array.iter (fun snk-> snk.Post msg)
         fun (someA)->
             try 
                 sinkMsg {Step=step;Event=Start}

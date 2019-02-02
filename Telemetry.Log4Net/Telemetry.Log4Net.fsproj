@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Telemetry\Telemetry.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.6.1" />
+    <PackageReference Update="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
 </Project>
